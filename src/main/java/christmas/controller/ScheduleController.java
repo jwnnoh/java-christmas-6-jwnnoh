@@ -10,6 +10,8 @@ public class ScheduleController {
     private final InputView inputView = new InputView();
     private final Validator validator = new Validator();
 
+    private Guest guest;
+
     public void setDate() {
         outputView.printWelcomeMessage();
         outputView.printRequestDateOfVisitMessage();
@@ -20,10 +22,14 @@ public class ScheduleController {
         String date = inputView.readDateOfVisit();
         try {
             validator.validateInputInteger(date);
-            Guest guest = new Guest(Integer.parseInt(date));
+            guest = new Guest(Integer.parseInt(date));
         } catch (IllegalArgumentException e) {
             outputView.printErrorFromDateMessage();
             getDateOfVisit();
         }
+    }
+
+    public Guest getGuest() {
+        return guest;
     }
 }

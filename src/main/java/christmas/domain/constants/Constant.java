@@ -1,12 +1,15 @@
 package christmas.domain.constants;
 
-public enum ConstantDelimiter {
+public enum Constant {
     ORDER_DELIMITER(","),
-    MENU_DELIMITER("-");
+    MENU_DELIMITER("-"),
+    PRINT_DELIMITER(" "),
+    MENU_ITEM_UNIT("개"),
+    AMOUNT_UNIT("원");
 
     private final String message;
 
-    ConstantDelimiter(String message) {
+    Constant(String message) {
         this.message = message;
     }
 

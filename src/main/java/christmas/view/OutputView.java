@@ -25,4 +25,24 @@ public class OutputView {
     public void printRequestOrderMessage() {
         System.out.println(ConstantMessage.REQUEST_ORDER.getMessage());
     }
+
+    public void printBenefitIntroPrefixMessage() {
+        System.out.print(ConstantMessage.BENEFIT_INTRO_PREFIX.getMessage());
+    }
+
+    public void printBenefitIntroSuffixMessage() {
+        System.out.println(ConstantMessage.BENEFIT_INTRO_SUFFIX.getMessage());
+    }
+
+    public void printNewLine() {
+        System.out.println();
+    }
+
+    public void printOrderedMenuMessage() {
+        System.out.println(ConstantMessage.ORDERED_MENU.getMessage());
+    }
+
+    public void printOrderAmountBeforeDiscountMessage() {
+        System.out.println(ConstantMessage.ORDER_AMOUNT_BEFORE_DISCOUNT);
+    }
 }

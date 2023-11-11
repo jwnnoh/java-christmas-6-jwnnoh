@@ -3,6 +3,7 @@ package christmas.domain;
 import christmas.domain.constants.Category;
 import christmas.domain.constants.Menu;
 
+import java.util.Collections;
 import java.util.Map;
 
 import static christmas.domain.constants.Menu.getCategoryByName;
@@ -69,5 +70,9 @@ public class OrderDetails {
             }
             throw new IllegalArgumentException();
         }
+    }
+
+    public Map<String, Integer> getMenuDetails() {
+        return Collections.unmodifiableMap(menuDetails);
     }
 }

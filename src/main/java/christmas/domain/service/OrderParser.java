@@ -5,8 +5,8 @@ import christmas.domain.validation.Validator;
 import java.util.HashMap;
 import java.util.Map;
 
-import static christmas.domain.constants.ConstantDelimiter.MENU_DELIMITER;
-import static christmas.domain.constants.ConstantDelimiter.ORDER_DELIMITER;
+import static christmas.domain.constants.Constant.MENU_DELIMITER;
+import static christmas.domain.constants.Constant.ORDER_DELIMITER;
 
 public class OrderParser {
     private final Validator validator = new Validator();
