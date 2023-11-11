@@ -21,4 +21,8 @@ public class OutputView {
     public void printRequestDateOfVisitMessage() {
         System.out.println(ConstantMessage.REQUEST_DATE_OF_VISIT.getMessage());
     }
+
+    public void printRequestOrderMessage() {
+        System.out.println(ConstantMessage.REQUEST_ORDER.getMessage());
+    }
 }
