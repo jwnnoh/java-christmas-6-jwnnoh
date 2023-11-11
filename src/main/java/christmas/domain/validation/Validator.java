@@ -1,9 +1,6 @@
 package christmas.domain.validation;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import static christmas.domain.constants.ConstantDelimiter.MENU_DELIMITER;
+import java.util.Map;
 
 public class Validator {
 
@@ -15,15 +12,20 @@ public class Validator {
         }
     }
 
-    public void validateDuplicates(String[] splitOrder) {
-        Set<String> identifyingItem = new HashSet<>();
-        for (String orderItem :
-                splitOrder) {
-            identifyingItem.add(orderItem.substring(0, orderItem.indexOf(MENU_DELIMITER.getMessage())));
-        }
-
-        if (identifyingItem.size() != splitOrder.length) {
+    public int validateQuantityInteger(String quantity) {
+        try {
+            return Integer.parseInt(quantity);
+        } catch (NumberFormatException e) {
             throw new IllegalArgumentException();
         }
+    }
+
+    public String validateDuplicates(String itemDetail, Map<String, Integer> splitMenu) {
+        if (!splitMenu.isEmpty()) {
+            if (splitMenu.containsKey(itemDetail)) {
+                throw new IllegalArgumentException();
+            }
+        }
+        return itemDetail;
     }
 }

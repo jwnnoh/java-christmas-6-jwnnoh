@@ -6,6 +6,8 @@ import christmas.domain.validation.Validator;
 import christmas.view.InputView;
 import christmas.view.OutputView;
 
+import java.util.Map;
+
 public class OrderController {
     private final OutputView outputView = new OutputView();
     private final InputView inputView = new InputView();
@@ -19,9 +21,8 @@ public class OrderController {
     private void getOrder() {
         String order = inputView.readOrder();
         try {
-            String[] splitOrder = parser.splitOrder(order);
-            validator.validateDuplicates(splitOrder);
-            OrderDetails orderDetails = new OrderDetails(splitOrder);
+            Map<String, Integer> parsedMenu = parser.splitMenu(parser.splitOrder(order));
+            OrderDetails orderDetails = new OrderDetails(parsedMenu);
         } catch (IllegalArgumentException e) {
             outputView.printErrorFromOrderMessage();
             getOrder();
