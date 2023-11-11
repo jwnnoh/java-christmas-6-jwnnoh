@@ -1,9 +1,13 @@
 package christmas.domain;
 
+import christmas.domain.constants.Category;
+import christmas.domain.constants.Menu;
+
 import java.util.HashMap;
 import java.util.Map;
 
 import static christmas.domain.constants.ConstantDelimiter.MENU_DELIMITER;
+import static christmas.domain.constants.Menu.getCategoryByName;
 
 public class OrderDetails {
     private static final int ORDER_MIN_LIMIT = 1;
@@ -53,6 +57,8 @@ public class OrderDetails {
 
     private void validate(Map<String, Integer> menuDetails) {
         validateQuantitySum(menuDetails);
+        checkValidMenu(menuDetails);
+        checkOnlyDrinks(menuDetails);
     }
 
     private void validateQuantitySum(Map<String, Integer> menuDetails) {
@@ -63,6 +69,32 @@ public class OrderDetails {
             if (quantitySum > ORDER_MAX_LIMIT) {
                 throw new IllegalArgumentException();
             }
+        }
+    }
+
+    public void checkValidMenu(Map<String, Integer> menuDetails) {
+        for (String menuItem : menuDetails.keySet()) {
+            if (!isValidMenuItem(menuItem)) {
+                throw new IllegalArgumentException();
+            }
+        }
+    }
+
+    private boolean isValidMenuItem(String menuItem) {
+        for (Menu menu : Menu.values()) {
+            if (menu.getName().equals(menuItem)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void checkOnlyDrinks(Map<String, Integer> menuDetails) {
+        for (String menuItem : menuDetails.keySet()) {
+            if (getCategoryByName(menuItem) != Category.DRINK) {
+                return;
+            }
+            throw new IllegalArgumentException();
         }
     }
 }
