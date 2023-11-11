@@ -5,8 +5,10 @@ import camp.nextstep.edu.missionutils.Console;
 public class InputView {
 
     public String readDateOfVisit() {
-        String input = Console.readLine();
+        return Console.readLine();
+    }
 
-        return input;
+    public String readOrder() {
+        return Console.readLine();
     }
 }
