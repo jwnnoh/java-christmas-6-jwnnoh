@@ -12,11 +12,11 @@ public class ScheduleController {
 
     public void setDate() {
         outputView.printWelcomeMessage();
+        outputView.printRequestDateOfVisitMessage();
         getDateOfVisit();
     }
 
     private void getDateOfVisit() {
-        outputView.printRequestDateOfVisitMessage();
         String date = inputView.readDateOfVisit();
         try {
             validator.validateInputInteger(date);
