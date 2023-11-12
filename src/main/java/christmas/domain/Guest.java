@@ -1,5 +1,8 @@
 package christmas.domain;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+
 public class Guest {
     private static final int DATE_MAX = 31;
     private static final int DATE_MIN = 1;
@@ -22,5 +25,22 @@ public class Guest {
 
     public boolean checkDDay(int dDay) {
         return date <= dDay;
+    }
+
+    public boolean checkDayWEEKEND() {
+        LocalDate dateTime = LocalDate.of(2023, 12, this.date);
+        DayOfWeek dayOfWeek = dateTime.getDayOfWeek();
+
+        return dayOfWeek == DayOfWeek.FRIDAY || dayOfWeek == DayOfWeek.SATURDAY;
+    }
+
+    public boolean checkSpecialDay() {
+        LocalDate dateTime = LocalDate.of(2023, 12, this.date);
+        DayOfWeek dayOfWeek = dateTime.getDayOfWeek();
+
+        if (dateTime.getDayOfMonth() == 25) {
+            return true;
+        }
+        return dayOfWeek == DayOfWeek.SUNDAY;
     }
 }
