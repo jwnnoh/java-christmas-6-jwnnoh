@@ -9,7 +9,7 @@ import static christmas.domain.constants.Constant.PRINT_DELIMITER;
 public class MainController {
     private final ScheduleController scheduleController = new ScheduleController();
     private final OrderController orderController = new OrderController();
-    private final DiscountController discountController = new DiscountController(orderController);
+    private final DiscountController discountController = new DiscountController(orderController, scheduleController);
     private final OutputView outputView = new OutputView();
 
     public void run() {
