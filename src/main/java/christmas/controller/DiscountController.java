@@ -30,6 +30,15 @@ public class DiscountController {
         showDDayDiscount();
         showWeekOfDateDiscount();
         showSpecialDiscount();
+        showGiveawayDiscount(purchaseAmount);
+        outputView.printNewLine();
+    }
+
+    private void showGiveawayDiscount(int purchaseAmount) {
+        if (giveaway.isGiven(purchaseAmount)) {
+            outputView.printGiveawayDiscountAmountMessage(
+                    formatter.returnDecimalFormatAmount(giveaway.getGiveawayPrice()));
+        }
     }
 
     private void showSpecialDiscount() {
