@@ -79,4 +79,9 @@ public class OutputView {
         System.out.print(ConstantMessage.GIVEAWAY_DISCOUNT.getMessage() + ConstantMessage.DISCOUNT_AMOUNT_PREFIX.getMessage());
         System.out.println(amount + ConstantMessage.AMOUNT_UNIT.getMessage());
     }
+
+    public void printTotalDiscountAmountMessage(String amount) {
+        System.out.print(ConstantMessage.DISCOUNT_AMOUNT.getMessage() + ConstantMessage.DISCOUNT_AMOUNT_PREFIX.getMessage());
+        System.out.println(amount + ConstantMessage.AMOUNT_UNIT.getMessage());
+    }
 }
