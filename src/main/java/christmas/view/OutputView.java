@@ -43,6 +43,6 @@ public class OutputView {
     }
 
     public void printOrderAmountBeforeDiscountMessage() {
-        System.out.println(ConstantMessage.ORDER_AMOUNT_BEFORE_DISCOUNT);
+        System.out.println(ConstantMessage.ORDER_AMOUNT_BEFORE_DISCOUNT.getMessage());
     }
 }

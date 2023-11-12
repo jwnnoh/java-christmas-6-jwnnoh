@@ -9,6 +9,7 @@ import static christmas.domain.constants.Constant.PRINT_DELIMITER;
 public class MainController {
     private final ScheduleController scheduleController = new ScheduleController();
     private final OrderController orderController = new OrderController();
+    private final DiscountController discountController = new DiscountController(orderController);
     private final OutputView outputView = new OutputView();
 
     public void run() {
@@ -16,17 +17,18 @@ public class MainController {
         orderController.setMenu();
         showBenefitIntro();
         showOrderedList();
+        discountController.calcDiscount();
     }
 
     private void showOrderedList() {
         outputView.printOrderedMenuMessage();
         Map<String, Integer> orderDetails = orderController.getOrderDetails().getMenuDetails();
-        for (String menuItem :
-                orderDetails.keySet()) {
+        for (String menuItem : orderDetails.keySet()) {
             System.out.println(menuItem +
                     PRINT_DELIMITER.getMessage() +
                     orderDetails.get(menuItem));
         }
+        outputView.printNewLine();
     }
 
     private void showBenefitIntro() {

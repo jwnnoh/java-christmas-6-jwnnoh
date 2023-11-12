@@ -36,14 +36,21 @@ public enum Menu {
     }
 
     public static Category getCategoryByName(String menuItem) {
-        Category type = null;
         for (Menu menu : Menu.values()) {
             if (menu.getName().equals(menuItem)) {
-                type = menu.getCategory();
+                return menu.getCategory();
             }
         }
-        return type;
+        return null; // Return null if the menuItem is not found
     }
 
+    public static int getPriceByName(String menuItem) {
+        for (Menu menu : Menu.values()) {
+            if (menu.getName().equals(menuItem)) {
+                return menu.getPrice();
+            }
+        }
+        return 0; // Return 0 if the menuItem is not found
+    }
 }
 
