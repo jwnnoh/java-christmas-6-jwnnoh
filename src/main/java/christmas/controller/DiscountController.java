@@ -33,6 +33,12 @@ public class DiscountController {
         showGiveawayDiscount(purchaseAmount);
         outputView.printNewLine();
         showTotalDiscountAmount();
+        showExpectedPurchaseAmount(purchaseAmount);
+    }
+
+    private void showExpectedPurchaseAmount(int purchaseAmount) {
+        outputView.printExpectedPurchaseAmount(formatter.returnDecimalFormatAmount(purchaseAmount - discountAmount));
+        outputView.printNewLine();
     }
 
     private void showTotalDiscountAmount() {

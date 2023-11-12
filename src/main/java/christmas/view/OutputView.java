@@ -81,7 +81,13 @@ public class OutputView {
     }
 
     public void printTotalDiscountAmountMessage(String amount) {
-        System.out.print(ConstantMessage.DISCOUNT_AMOUNT.getMessage() + ConstantMessage.DISCOUNT_AMOUNT_PREFIX.getMessage());
+        System.out.println(ConstantMessage.DISCOUNT_AMOUNT.getMessage());
+        System.out.println(ConstantMessage.DISCOUNT_AMOUNT_PREFIX.getMessage() +
+                amount + ConstantMessage.AMOUNT_UNIT.getMessage());
+    }
+
+    public void printExpectedPurchaseAmount(String amount) {
+        System.out.println(ConstantMessage.ORDER_AMOUNT_AFTER_DISCOUNT.getMessage());
         System.out.println(amount + ConstantMessage.AMOUNT_UNIT.getMessage());
     }
 }
