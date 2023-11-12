@@ -59,4 +59,24 @@ public class OutputView {
         System.out.print(ConstantMessage.D_DAY_DISCOUNT.getMessage() + ConstantMessage.DISCOUNT_AMOUNT_PREFIX.getMessage());
         System.out.println(amount + ConstantMessage.AMOUNT_UNIT.getMessage());
     }
+
+    public void printWeekdayDiscountAmountMessage(String amount) {
+        System.out.print(ConstantMessage.WEEKDAY_DISCOUNT.getMessage() + ConstantMessage.DISCOUNT_AMOUNT_PREFIX.getMessage());
+        System.out.println(amount + ConstantMessage.AMOUNT_UNIT.getMessage());
+    }
+
+    public void printWeekendDiscountAmountMessage(String amount) {
+        System.out.print(ConstantMessage.WEEKEND_DISCOUNT.getMessage() + ConstantMessage.DISCOUNT_AMOUNT_PREFIX.getMessage());
+        System.out.println(amount + ConstantMessage.AMOUNT_UNIT.getMessage());
+    }
+
+    public void printSpecialDayDiscountAmountMessage(String amount) {
+        System.out.print(ConstantMessage.SPECIAL_DISCOUNT.getMessage() + ConstantMessage.DISCOUNT_AMOUNT_PREFIX.getMessage());
+        System.out.println(amount + ConstantMessage.AMOUNT_UNIT.getMessage());
+    }
+
+    public void printGiveawayDiscountAmountMessage(String amount) {
+        System.out.print(ConstantMessage.GIVEAWAY_DISCOUNT.getMessage() + ConstantMessage.DISCOUNT_AMOUNT_PREFIX.getMessage());
+        System.out.println(amount + ConstantMessage.AMOUNT_UNIT.getMessage());
+    }
 }
