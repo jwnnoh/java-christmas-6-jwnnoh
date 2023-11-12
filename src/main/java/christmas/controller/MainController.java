@@ -1,5 +1,6 @@
 package christmas.controller;
 
+import christmas.domain.constants.Constant;
 import christmas.view.OutputView;
 
 import java.util.Map;
@@ -26,7 +27,7 @@ public class MainController {
         for (String menuItem : orderDetails.keySet()) {
             System.out.println(menuItem +
                     PRINT_DELIMITER.getMessage() +
-                    orderDetails.get(menuItem));
+                    orderDetails.get(menuItem) + Constant.MENU_ITEM_UNIT.getMessage());
         }
         outputView.printNewLine();
     }
