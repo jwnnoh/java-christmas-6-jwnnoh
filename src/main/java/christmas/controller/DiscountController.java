@@ -9,7 +9,6 @@ import static christmas.domain.constants.Constant.BENEFIT_UNAVAILABLE;
 public class DiscountController {
     private static final int D_DAY = 25;
     private static final int SPECIAL_DAY_DISCOUNT_AMOUNT = 1000;
-    private static final int DAY_DISCOUNT_AMOUNT = 2023;
 
     private final ScheduleController scheduleController;
     private final OrderController ordercontroller;
@@ -17,9 +16,6 @@ public class DiscountController {
     private final Giveaway giveaway = new Giveaway();
     private final DDayCalculator dDayCalculator = new DDayCalculator();
     private final DecimalFormatFormatter formatter = new DecimalFormatFormatter();
-    private final WeekdayDiscount weekdayDiscount = new WeekdayDiscount();
-    private final WeekendDiscount weekendDiscount = new WeekendDiscount();
-
 
     private int discountAmount;
 
@@ -33,9 +29,20 @@ public class DiscountController {
         outputView.printDiscountTypeMessage();
         showDDayDiscount();
         showWeekOfDateDiscount();
+        showSpecialDiscount();
+    }
+
+    private void showSpecialDiscount() {
+        if (scheduleController.getGuest().checkSpecialDay()) {
+            outputView.printSpecialDayDiscountAmountMessage(formatter.returnDecimalFormatAmount(SPECIAL_DAY_DISCOUNT_AMOUNT));
+            discountAmount += SPECIAL_DAY_DISCOUNT_AMOUNT;
+        }
     }
 
     private void showWeekOfDateDiscount() {
+        WeekdayDiscount weekdayDiscount = new WeekdayDiscount();
+        WeekendDiscount weekendDiscount = new WeekendDiscount();
+
         if (scheduleController.getGuest().checkDayWEEKEND()) {
             // 주말 -> 메인 메뉴 개당 2,023원 할인
             String amount = weekendDiscount.calcDiscount(ordercontroller.getOrderDetails().getMenuDetails(), discountAmount);
