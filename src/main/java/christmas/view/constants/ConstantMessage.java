@@ -13,9 +13,16 @@ public enum ConstantMessage {
     ORDER_AMOUNT_BEFORE_DISCOUNT("<할인 전 총주문 금액>"),
     GIVEAWAY_MENU("<증정 메뉴>"),
     DISCOUNT_TYPE("<혜택 내역>"),
+    D_DAY_DISCOUNT("크리스마스 디데이 할인: "),
+    WEEKDAY_DISCOUNT("평일 할인: "),
+    WEEKEND_DISCOUNT("주말 할인: "),
+    SPECIAL_DISCOUNT("특별 할인: "),
+    GIVEAWAY_DISCOUNT("증정 이벤트: "),
     DISCOUNT_AMOUNT("<총혜택 금액>"),
     ORDER_AMOUNT_AFTER_DISCOUNT("<할인 후 예상 결제 금액>"),
-    EVENT_BADGE("<12월 이벤트 배지>");
+    EVENT_BADGE("<12월 이벤트 배지>"),
+    AMOUNT_UNIT("원"),
+    DISCOUNT_AMOUNT_PREFIX("-");
     private final String message;
 
     ConstantMessage(String message) {

@@ -1,24 +1,28 @@
 package christmas.controller;
 
+import christmas.domain.service.DDayCalculator;
+import christmas.domain.service.DecimalFormatFormatter;
 import christmas.domain.service.EachAmountAdder;
 import christmas.domain.service.Giveaway;
 import christmas.view.OutputView;
 
-import java.text.DecimalFormat;
 import java.util.Map;
 
-import static christmas.domain.constants.Constant.AMOUNT_UNIT;
+import static christmas.domain.constants.Constant.BENEFIT_UNAVAILABLE;
 
 public class DiscountController {
-    private static final String REWARD_FORMAT = "###,###";
+    private static final int D_DAY = 25;
 
     private final ScheduleController scheduleController;
     private final OrderController orderController;
     private final OutputView outputView = new OutputView();
     private final EachAmountAdder eachAmountAdder = new EachAmountAdder();
     private final Giveaway giveaway = new Giveaway();
+    private final DDayCalculator dDayCalculator = new DDayCalculator();
+    private final DecimalFormatFormatter formatter = new DecimalFormatFormatter();
 
     private int purchaseAmount;
+    private int discountAmount;
 
     public DiscountController(OrderController orderController, ScheduleController scheduleController) {
         this.orderController = orderController;
@@ -28,19 +32,30 @@ public class DiscountController {
     public void calcDiscount() {
         calcPurchaseAmountBeforeDiscount();
         showPurchaseAmountBeforeDiscount();
-        showGiveawayEvent(purchaseAmount);
+        showGiveawayEvent();
+        outputView.printDiscountTypeMessage();
+        showDDayDiscount();
     }
 
-    private void showGiveawayEvent(int purchaseAmount) {
+    private void showDDayDiscount() {
+        if (scheduleController.getGuest().checkDDay(D_DAY)) {
+            int dDayDiscount = dDayCalculator.calcDDAyDiscount(scheduleController.getGuest().getDate(), D_DAY, discountAmount);
+            outputView.printDDayDiscountAmountMessage(formatter.returnDecimalFormatAmount(dDayDiscount));
+            outputView.printNewLine();
+            return;
+        }
+        System.out.println(BENEFIT_UNAVAILABLE.getMessage());
+        outputView.printNewLine();
+    }
+
+    private void showGiveawayEvent() {
         outputView.printGiveawayEventMessage();
-        System.out.println(giveaway.checkGiveaway(purchaseAmount));
+        System.out.println(giveaway.checkGiveaway(purchaseAmount, discountAmount));
         outputView.printNewLine();
     }
 
     private void showPurchaseAmountBeforeDiscount() {
-        outputView.printOrderAmountBeforeDiscountMessage();
-        DecimalFormat decimalFormat = new DecimalFormat(REWARD_FORMAT);
-        System.out.println(decimalFormat.format(purchaseAmount) + AMOUNT_UNIT.getMessage());
+        outputView.printOrderAmountBeforeDiscountMessage(formatter.returnDecimalFormatAmount(purchaseAmount));
         outputView.printNewLine();
     }
 

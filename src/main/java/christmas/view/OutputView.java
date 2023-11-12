@@ -42,11 +42,21 @@ public class OutputView {
         System.out.println(ConstantMessage.ORDERED_MENU.getMessage());
     }
 
-    public void printOrderAmountBeforeDiscountMessage() {
+    public void printOrderAmountBeforeDiscountMessage(String amount) {
         System.out.println(ConstantMessage.ORDER_AMOUNT_BEFORE_DISCOUNT.getMessage());
+        System.out.println(amount + ConstantMessage.AMOUNT_UNIT.getMessage());
     }
 
     public void printGiveawayEventMessage() {
         System.out.println(ConstantMessage.GIVEAWAY_MENU.getMessage());
+    }
+
+    public void printDiscountTypeMessage() {
+        System.out.println(ConstantMessage.DISCOUNT_TYPE.getMessage());
+    }
+
+    public void printDDayDiscountAmountMessage(String amount) {
+        System.out.print(ConstantMessage.D_DAY_DISCOUNT.getMessage() + ConstantMessage.DISCOUNT_AMOUNT_PREFIX.getMessage());
+        System.out.println(amount + ConstantMessage.AMOUNT_UNIT.getMessage());
     }
 }

@@ -20,8 +20,7 @@ public class Guest {
         return date;
     }
 
-//    public boolean contains(int date) {
-//        //날짜가 포함되어 있는지 확인한다.
-//    }
-
+    public boolean checkDDay(int dDay) {
+        return date <= dDay;
+    }
 }
