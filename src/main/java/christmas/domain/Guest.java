@@ -10,7 +10,7 @@ public class Guest {
     }
 
     private int validate(int date) {
-        if (!(date >= 1 && date <= 31)) {
+        if (!(date >= DATE_MIN && date <= DATE_MAX)) {
             throw new IllegalArgumentException();
         }
         return date;
