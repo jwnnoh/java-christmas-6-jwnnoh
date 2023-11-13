@@ -2,7 +2,6 @@ package christmas.controller;
 
 import christmas.domain.service.DecimalFormatFormatter;
 import christmas.view.OutputView;
-import christmas.view.constants.ConstantMessage;
 
 public class NoDiscountController {
     private final OutputView outputView = new OutputView();
@@ -17,31 +16,24 @@ public class NoDiscountController {
     }
 
     private void showEventBadge() {
-        System.out.println(ConstantMessage.EVENT_BADGE.getMessage());
-        outputView.printUnavailable();
+        outputView.printEventBadgeUnavailable();
     }
 
     private void showExpectedPurchaseAmount(int purchaseAmount) {
-        System.out.println(ConstantMessage.ORDER_AMOUNT_AFTER_DISCOUNT.getMessage());
-        System.out.println(formatter.returnDecimalFormatAmount(purchaseAmount) +
-                ConstantMessage.AMOUNT_UNIT.getMessage());
+        outputView.printExpectedPurchaseAmountMessage(formatter.returnDecimalFormatAmount(purchaseAmount));
         outputView.printNewLine();
     }
 
     private void showTotalDiscountAmount(int discountAmount) {
-        System.out.println(ConstantMessage.DISCOUNT_AMOUNT.getMessage());
-        System.out.println(formatter.returnDecimalFormatAmount(discountAmount) +
-                ConstantMessage.AMOUNT_UNIT.getMessage());
-        outputView.printNewLine();
+        outputView.printTotalDiscountUnavailableMessage(discountAmount);
     }
 
     private void showBenefitDiscount() {
-        System.out.println(ConstantMessage.DISCOUNT_TYPE.getMessage());
+        outputView.printDiscountTypeMessage();
         outputView.printUnavailable();
     }
 
     private void showGiveaway() {
-        System.out.println(ConstantMessage.GIVEAWAY_MENU.getMessage());
-        outputView.printUnavailable();
+        outputView.printGiveawayEventUnavailable();
     }
 }
