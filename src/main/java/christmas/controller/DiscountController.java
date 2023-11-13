@@ -41,9 +41,13 @@ public class DiscountController {
         outputView.printEventBadgeMessage(eventBadgeDraw.determineBadge(discountAmount));
     }
 
-    private void showExpectedPurchaseAmount(int purchaseAmount) { // 증정 이벤트는 결제 금액에서 중복으로 차감되지 않는다.
-        outputView.printExpectedPurchaseAmountMessage(formatter.returnDecimalFormatAmount(
-                purchaseAmount - discountAmount + Giveaway.GIVEAWAY_MENU.getPrice()));
+    private void showExpectedPurchaseAmount(int purchaseAmount) {
+        ExpectedPurchaseAmount expectedPurchaseAmount = new ExpectedPurchaseAmount();
+        int finalPurchaseAmount = expectedPurchaseAmount.calculate(purchaseAmount, discountAmount);
+        if (finalPurchaseAmount > 0) {
+            outputView.printExpectedPurchaseAmountMessage(formatter.returnDecimalFormatAmount(finalPurchaseAmount));
+        }
+
         outputView.printNewLine();
     }
 
