@@ -23,17 +23,18 @@ public class MainController {
 
 
     public void run() {
+        int discountAmount = 0;
         scheduleController.setDate();
         orderController.setMenu();
         showBenefitIntro();
         showOrderedList();
         showPurchaseAmountBeforeDiscount();
         if (purchaseAmount >= DISCOUNT_REQUIREMENT_AMOUNT) {
-            int discountAmount = discountController.showDiscount(purchaseAmount);
+            discountAmount = discountController.showDiscount(purchaseAmount);
             resultController.showResult(purchaseAmount, discountAmount);
             return;
         }
-        noDiscountController.showDiscount(purchaseAmount);
+        noDiscountController.showDiscount(purchaseAmount, discountAmount);
     }
 
     private void showOrderedList() {

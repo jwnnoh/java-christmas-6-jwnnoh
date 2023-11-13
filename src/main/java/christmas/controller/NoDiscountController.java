@@ -8,10 +8,10 @@ public class NoDiscountController {
     private final OutputView outputView = new OutputView();
     private final DecimalFormatFormatter formatter = new DecimalFormatFormatter();
 
-    public void showDiscount(int purchaseAmount) {
+    public void showDiscount(int purchaseAmount, int discountAmount) {
         showGiveaway();
         showBenefitDiscount();
-        showTotalDiscountAmount();
+        showTotalDiscountAmount(discountAmount);
         showExpectedPurchaseAmount(purchaseAmount);
         showEventBadge();
     }
@@ -28,9 +28,9 @@ public class NoDiscountController {
         outputView.printNewLine();
     }
 
-    private void showTotalDiscountAmount() {
+    private void showTotalDiscountAmount(int discountAmount) {
         System.out.println(ConstantMessage.DISCOUNT_AMOUNT.getMessage());
-        System.out.println(formatter.returnDecimalFormatAmount(0) +
+        System.out.println(formatter.returnDecimalFormatAmount(discountAmount) +
                 ConstantMessage.AMOUNT_UNIT.getMessage());
         outputView.printNewLine();
     }
