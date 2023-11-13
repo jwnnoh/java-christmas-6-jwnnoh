@@ -3,7 +3,6 @@ package christmas.controller;
 import christmas.domain.constants.Constant;
 import christmas.domain.service.*;
 import christmas.view.OutputView;
-import christmas.view.constants.ConstantMessage;
 
 public class DiscountController {
     private static final int D_DAY = 25;
@@ -91,7 +90,7 @@ public class DiscountController {
     private void showWeekOfDateDiscount() { // TODO: 서비스로 분리하기
         WeekdayDiscount weekdayDiscount = new WeekdayDiscount();
         WeekendDiscount weekendDiscount = new WeekendDiscount();
-        int weekOfDateDiscount = 0;
+        int weekOfDateDiscount;
 
         if (scheduleController.getGuest().checkDayWEEKEND()) {
             // 주말 -> 메인 메뉴 개당 2,023원 할인

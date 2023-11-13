@@ -1,6 +1,5 @@
 package christmas.domain.service;
 
-import christmas.domain.constants.Constant;
 import christmas.domain.constants.EventBadge;
 
 public class EventBadgeDraw {

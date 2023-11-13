@@ -1,6 +1,5 @@
 package christmas.domain.service;
 
-import christmas.domain.constants.Constant;
 import christmas.domain.constants.Menu;
 
 import static christmas.domain.constants.Menu.CHAMPAGNE;
