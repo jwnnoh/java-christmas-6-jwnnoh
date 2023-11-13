@@ -1,10 +1,9 @@
 package christmas.controller;
 
+import christmas.domain.constants.Constant;
 import christmas.domain.service.*;
 import christmas.view.OutputView;
-
-
-import static christmas.domain.constants.Constant.BENEFIT_UNAVAILABLE;
+import christmas.view.constants.ConstantMessage;
 
 public class DiscountController {
     private static final int D_DAY = 25;
@@ -25,67 +24,95 @@ public class DiscountController {
 
     public void showDiscount(int purchaseAmount) {
         showGiveawayEvent(purchaseAmount);
-        outputView.printDiscountTypeMessage();
-        showDDayDiscount();
-        showWeekOfDateDiscount();
-        showSpecialDiscount();
-        showGiveawayDiscount(purchaseAmount);
-        outputView.printNewLine();
+        showDiscountBenefit(purchaseAmount);
         showTotalDiscountAmount();
         showExpectedPurchaseAmount(purchaseAmount);
         showEventBadge();
     }
 
+    private void showDiscountBenefit(int purchaseAmount) {
+        final int tmpDiscountAmount = discountAmount;
+
+        outputView.printDiscountTypeMessage();
+        showDDayDiscount();
+        showWeekOfDateDiscount();
+        showSpecialDiscount();
+        showGiveawayDiscount(purchaseAmount);
+
+        if (tmpDiscountAmount == discountAmount) {
+            outputView.printUnavailable();
+        }
+    }
+
     private void showEventBadge() {
         EventBadgeDraw eventBadgeDraw = new EventBadgeDraw();
-        outputView.printEventBadgeMessage(eventBadgeDraw.determineBadge(discountAmount));
+        if (discountAmount >= EventBadgeDraw.LOWEST_DISCOUNT) {
+            outputView.printEventBadgeMessage(eventBadgeDraw.determineBadge(discountAmount));
+            return;
+        }
+        outputView.printEventBadgeUnavailable();
     }
 
     private void showExpectedPurchaseAmount(int purchaseAmount) {
         ExpectedPurchaseAmount expectedPurchaseAmount = new ExpectedPurchaseAmount();
         int finalPurchaseAmount = expectedPurchaseAmount.calculate(purchaseAmount, discountAmount);
         if (finalPurchaseAmount > 0) {
-            outputView.printExpectedPurchaseAmountMessage(formatter.returnDecimalFormatAmount(finalPurchaseAmount));
+            outputView.printExpectedPurchaseAmountMessage(
+                    formatter.returnDecimalFormatAmount(finalPurchaseAmount));
         }
-
         outputView.printNewLine();
     }
 
     private void showTotalDiscountAmount() {
-        outputView.printTotalDiscountAmountMessage(formatter.returnDecimalFormatAmount(discountAmount));
-        outputView.printNewLine();
+        if (discountAmount > 0) {
+            outputView.printTotalDiscountAmountMessage(formatter.returnDecimalFormatAmount(discountAmount));
+            return;
+        }
+        outputView.printTotalDiscountUnavailableMessage(discountAmount);
     }
 
     private void showGiveawayDiscount(int purchaseAmount) {
         if (giveaway.isGiven(purchaseAmount)) {
             discountAmount += Giveaway.GIVEAWAY_MENU.getPrice(); // 증정 할인 누적합
             outputView.printGiveawayDiscountAmountMessage(
-                    formatter.returnDecimalFormatAmount(giveaway.getGiveawayPrice()));
+                    formatter.returnDecimalFormatAmount(Giveaway.GIVEAWAY_MENU.getPrice()));
         }
     }
 
     private void showSpecialDiscount() {
         if (scheduleController.getGuest().checkSpecialDay()) {
-            outputView.printSpecialDayDiscountAmountMessage(formatter.returnDecimalFormatAmount(SPECIAL_DAY_DISCOUNT_AMOUNT));
-            discountAmount += SPECIAL_DAY_DISCOUNT_AMOUNT; // 특별 할인 누적합
+            int specialDiscount = SPECIAL_DAY_DISCOUNT_AMOUNT;
+            outputView.printSpecialDayDiscountAmountMessage(
+                    formatter.returnDecimalFormatAmount(specialDiscount));
+            discountAmount += specialDiscount; // 특별 할인 누적합
         }
     }
 
-    private void showWeekOfDateDiscount() {
+    private void showWeekOfDateDiscount() { // TODO: 서비스로 분리하기
         WeekdayDiscount weekdayDiscount = new WeekdayDiscount();
         WeekendDiscount weekendDiscount = new WeekendDiscount();
+        int weekOfDateDiscount = 0;
 
         if (scheduleController.getGuest().checkDayWEEKEND()) {
             // 주말 -> 메인 메뉴 개당 2,023원 할인
-            int weekendDiscountAmount = weekendDiscount.calcDiscount(ordercontroller.getOrderDetails().getMenuDetails());
-            discountAmount += weekendDiscountAmount; // 주말 할인 누적합
-            outputView.printWeekendDiscountAmountMessage(formatter.returnDecimalFormatAmount(weekendDiscountAmount));
+            weekOfDateDiscount = weekendDiscount.calcDiscount(
+                    ordercontroller.getOrderDetails().getMenuDetails());
+            if (weekOfDateDiscount > 0) {
+                discountAmount += weekOfDateDiscount; // 주말 할인 누적합
+                outputView.printWeekendDiscountAmountMessage(
+                        formatter.returnDecimalFormatAmount(weekOfDateDiscount));
+                return;
+            }
             return;
         }
         // 평일 -> 디저트 메뉴 개당 2,023원 할인
-        int weekdayDiscountAmount = weekdayDiscount.calcDiscount(ordercontroller.getOrderDetails().getMenuDetails());
-        discountAmount += weekdayDiscountAmount; // 평일 할인 누적합
-        outputView.printWeekdayDiscountAmountMessage(formatter.returnDecimalFormatAmount(weekdayDiscountAmount));
+        weekOfDateDiscount  = weekdayDiscount.calcDiscount(
+                ordercontroller.getOrderDetails().getMenuDetails());
+        if (weekOfDateDiscount > 0) {
+            discountAmount += weekOfDateDiscount; // 평일 할인 누적합
+            outputView.printWeekdayDiscountAmountMessage(
+                    formatter.returnDecimalFormatAmount(weekOfDateDiscount));
+        }
     }
 
     private void showDDayDiscount() {
@@ -93,16 +120,18 @@ public class DiscountController {
             DDayCalculator dDayCalculator = new DDayCalculator();
             int dDayDiscount = dDayCalculator.calcDDAyDiscount(scheduleController.getGuest().getDate(), D_DAY);
             discountAmount += dDayDiscount; // 디데이 할인 누적합
-            outputView.printDDayDiscountAmountMessage(formatter.returnDecimalFormatAmount(dDayDiscount));
-            return;
+            outputView.printDDayDiscountAmountMessage(
+                    formatter.returnDecimalFormatAmount(dDayDiscount));
         }
-        System.out.println(BENEFIT_UNAVAILABLE.getMessage());
-        outputView.printNewLine();
     }
 
     private void showGiveawayEvent(int purchaseAmount) {
-        outputView.printGiveawayEventMessage();
-        System.out.println(giveaway.checkGiveaway(purchaseAmount));
-        outputView.printNewLine();
+        if (giveaway.checkGiveaway(purchaseAmount)) {
+            String message =  (Giveaway.GIVEAWAY_MENU.getName() + " " +
+                    Giveaway.GIVEAWAY_MENU_AMOUNT + Constant.MENU_ITEM_UNIT.getMessage());
+            outputView.printGiveawayEventMessage(message);
+            return;
+        }
+        outputView.printGiveawayEventUnavailable();
     }
 }

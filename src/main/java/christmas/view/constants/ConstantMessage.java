@@ -22,7 +22,8 @@ public enum ConstantMessage {
     ORDER_AMOUNT_AFTER_DISCOUNT("<할인 후 예상 결제 금액>"),
     EVENT_BADGE("<12월 이벤트 배지>"),
     AMOUNT_UNIT("원"),
-    DISCOUNT_AMOUNT_PREFIX("-");
+    DISCOUNT_AMOUNT_PREFIX("-"),
+    BENEFIT_UNAVAILABLE("없음");
     private final String message;
 
     ConstantMessage(String message) {

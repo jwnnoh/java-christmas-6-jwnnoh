@@ -47,8 +47,16 @@ public class OutputView {
         System.out.println(amount + ConstantMessage.AMOUNT_UNIT.getMessage());
     }
 
-    public void printGiveawayEventMessage() {
+    public void printGiveawayEventMessage(String message) {
         System.out.println(ConstantMessage.GIVEAWAY_MENU.getMessage());
+        System.out.println(message);
+        printNewLine();
+    }
+
+    public void printGiveawayEventUnavailable() {
+        System.out.println(ConstantMessage.GIVEAWAY_MENU.getMessage());
+        System.out.println(ConstantMessage.BENEFIT_UNAVAILABLE.getMessage());
+        printNewLine();
     }
 
     public void printDiscountTypeMessage() {
@@ -56,34 +64,47 @@ public class OutputView {
     }
 
     public void printDDayDiscountAmountMessage(String amount) {
-        System.out.print(ConstantMessage.D_DAY_DISCOUNT.getMessage() + ConstantMessage.DISCOUNT_AMOUNT_PREFIX.getMessage());
-        System.out.println(amount + ConstantMessage.AMOUNT_UNIT.getMessage());
+        System.out.println(ConstantMessage.D_DAY_DISCOUNT.getMessage() +
+                ConstantMessage.DISCOUNT_AMOUNT_PREFIX.getMessage() +
+                amount + ConstantMessage.AMOUNT_UNIT.getMessage());
     }
 
     public void printWeekdayDiscountAmountMessage(String amount) {
-        System.out.print(ConstantMessage.WEEKDAY_DISCOUNT.getMessage() + ConstantMessage.DISCOUNT_AMOUNT_PREFIX.getMessage());
-        System.out.println(amount + ConstantMessage.AMOUNT_UNIT.getMessage());
+        System.out.println(ConstantMessage.WEEKDAY_DISCOUNT.getMessage() +
+                ConstantMessage.DISCOUNT_AMOUNT_PREFIX.getMessage() +
+                amount + ConstantMessage.AMOUNT_UNIT.getMessage());
     }
 
     public void printWeekendDiscountAmountMessage(String amount) {
-        System.out.print(ConstantMessage.WEEKEND_DISCOUNT.getMessage() + ConstantMessage.DISCOUNT_AMOUNT_PREFIX.getMessage());
-        System.out.println(amount + ConstantMessage.AMOUNT_UNIT.getMessage());
+        System.out.println(ConstantMessage.WEEKEND_DISCOUNT.getMessage() +
+                ConstantMessage.DISCOUNT_AMOUNT_PREFIX.getMessage() +
+                amount + ConstantMessage.AMOUNT_UNIT.getMessage());
     }
 
     public void printSpecialDayDiscountAmountMessage(String amount) {
-        System.out.print(ConstantMessage.SPECIAL_DISCOUNT.getMessage() + ConstantMessage.DISCOUNT_AMOUNT_PREFIX.getMessage());
-        System.out.println(amount + ConstantMessage.AMOUNT_UNIT.getMessage());
+        System.out.println(ConstantMessage.SPECIAL_DISCOUNT.getMessage() +
+                ConstantMessage.DISCOUNT_AMOUNT_PREFIX.getMessage() +
+                amount + ConstantMessage.AMOUNT_UNIT.getMessage());
     }
 
     public void printGiveawayDiscountAmountMessage(String amount) {
-        System.out.print(ConstantMessage.GIVEAWAY_DISCOUNT.getMessage() + ConstantMessage.DISCOUNT_AMOUNT_PREFIX.getMessage());
+        System.out.print(ConstantMessage.GIVEAWAY_DISCOUNT.getMessage() +
+                ConstantMessage.DISCOUNT_AMOUNT_PREFIX.getMessage());
         System.out.println(amount + ConstantMessage.AMOUNT_UNIT.getMessage());
+        printNewLine();
     }
 
     public void printTotalDiscountAmountMessage(String amount) {
         System.out.println(ConstantMessage.DISCOUNT_AMOUNT.getMessage());
         System.out.println(ConstantMessage.DISCOUNT_AMOUNT_PREFIX.getMessage() +
                 amount + ConstantMessage.AMOUNT_UNIT.getMessage());
+        printNewLine();
+    }
+
+    public void printTotalDiscountUnavailableMessage(int amount) {
+        System.out.println(ConstantMessage.DISCOUNT_AMOUNT.getMessage());
+        System.out.println(amount + ConstantMessage.AMOUNT_UNIT.getMessage());
+        printNewLine();
     }
 
     public void printExpectedPurchaseAmountMessage(String amount) {
@@ -94,5 +115,15 @@ public class OutputView {
     public void printEventBadgeMessage(String badge) {
         System.out.println(ConstantMessage.EVENT_BADGE.getMessage());
         System.out.println(badge);
+    }
+
+    public void printEventBadgeUnavailable() {
+        System.out.println(ConstantMessage.EVENT_BADGE.getMessage());
+        System.out.println(ConstantMessage.BENEFIT_UNAVAILABLE.getMessage());
+    }
+
+    public void printUnavailable() {
+        System.out.println(ConstantMessage.BENEFIT_UNAVAILABLE.getMessage());
+        printNewLine();
     }
 }

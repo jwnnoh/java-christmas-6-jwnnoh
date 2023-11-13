@@ -4,8 +4,7 @@ public enum Constant {
     ORDER_DELIMITER(","),
     MENU_DELIMITER("-"),
     PRINT_DELIMITER(" "),
-    MENU_ITEM_UNIT("개"),
-    BENEFIT_UNAVAILABLE("없음");
+    MENU_ITEM_UNIT("개");
 
 
     private final String message;

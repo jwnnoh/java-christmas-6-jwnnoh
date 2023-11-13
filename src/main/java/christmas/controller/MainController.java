@@ -30,7 +30,7 @@ public class MainController {
             discountController.showDiscount(purchaseAmount);
             return;
         }
-        noDiscountController.showDiscount();
+        noDiscountController.showDiscount(purchaseAmount);
     }
 
     private void showOrderedList() {
