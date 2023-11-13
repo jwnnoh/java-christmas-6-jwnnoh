@@ -25,7 +25,6 @@ public class DiscountController {
         showGiveawayEvent(purchaseAmount);
         showDiscountBenefit(purchaseAmount);
         return showTotalDiscountAmount();
-        //분리
     }
 
     private void showDiscountBenefit(int purchaseAmount) {
@@ -36,7 +35,6 @@ public class DiscountController {
         showWeekOfDateDiscount();
         showSpecialDiscount();
         showGiveawayDiscount(purchaseAmount);
-
         if (tmpDiscountAmount == discountAmount) {
             outputView.printUnavailable();
         }
@@ -68,28 +66,37 @@ public class DiscountController {
         }
     }
 
-    private void showWeekOfDateDiscount() { // TODO: 서비스로 분리하기
-        WeekdayDiscount weekdayDiscount = new WeekdayDiscount();
-        WeekendDiscount weekendDiscount = new WeekendDiscount();
-        int weekOfDateDiscount;
-
-        if (scheduleController.getGuest().checkDayWEEKEND()) { // 주말 -> 메인 메뉴 개당 2,023원 할인
-            weekOfDateDiscount = weekendDiscount.calcDiscount(
-                    ordercontroller.getOrderDetails().getMenuDetails());
-            if (weekOfDateDiscount > 0) {
-                discountAmount += weekOfDateDiscount; // 주말 할인 누적합
-                outputView.printWeekendDiscountAmountMessage(
-                        formatter.returnDecimalFormatAmount(weekOfDateDiscount));
-                return;
-            }
+    private void showWeekOfDateDiscount() {
+        if (scheduleController.getGuest().checkDayWEEKEND()) {
+            showWeekend();
             return;
         }
-        weekOfDateDiscount  = weekdayDiscount.calcDiscount(// 평일 -> 디저트 메뉴 개당 2,023원 할인
+        showWeekday();
+    }
+
+    private void showWeekend() {
+        WeekendDiscount weekendDiscount = new WeekendDiscount();
+
+        int weekendDiscountAmount;
+        weekendDiscountAmount = weekendDiscount.calcDiscount(// 주말 -> 메인 메뉴 개당 2,023원 할인
                 ordercontroller.getOrderDetails().getMenuDetails());
-        if (weekOfDateDiscount > 0) {
-            discountAmount += weekOfDateDiscount; // 평일 할인 누적합
+        if (weekendDiscountAmount > 0) {
+            discountAmount += weekendDiscountAmount; // 주말 할인 누적합
+            outputView.printWeekendDiscountAmountMessage(
+                    formatter.returnDecimalFormatAmount(weekendDiscountAmount));
+        }
+    }
+
+    private void showWeekday() {
+        WeekdayDiscount weekdayDiscount = new WeekdayDiscount();
+
+        int weekDayDiscountAmount;
+        weekDayDiscountAmount  = weekdayDiscount.calcDiscount(// 평일 -> 디저트 메뉴 개당 2,023원 할인
+                ordercontroller.getOrderDetails().getMenuDetails());
+        if (weekDayDiscountAmount > 0) {
+            discountAmount += weekDayDiscountAmount; // 평일 할인 누적합
             outputView.printWeekdayDiscountAmountMessage(
-                    formatter.returnDecimalFormatAmount(weekOfDateDiscount));
+                    formatter.returnDecimalFormatAmount(weekDayDiscountAmount));
         }
     }
 
