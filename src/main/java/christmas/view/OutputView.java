@@ -91,10 +91,10 @@ public class OutputView {
         System.out.print(ConstantMessage.GIVEAWAY_DISCOUNT.getMessage() +
                 ConstantMessage.DISCOUNT_AMOUNT_PREFIX.getMessage());
         System.out.println(amount + ConstantMessage.AMOUNT_UNIT.getMessage());
-        printNewLine();
     }
 
     public void printTotalDiscountAmountMessage(String amount) {
+        printNewLine();
         System.out.println(ConstantMessage.DISCOUNT_AMOUNT.getMessage());
         System.out.println(ConstantMessage.DISCOUNT_AMOUNT_PREFIX.getMessage() +
                 amount + ConstantMessage.AMOUNT_UNIT.getMessage());

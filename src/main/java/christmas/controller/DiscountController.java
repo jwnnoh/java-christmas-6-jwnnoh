@@ -92,8 +92,7 @@ public class DiscountController {
         WeekendDiscount weekendDiscount = new WeekendDiscount();
         int weekOfDateDiscount;
 
-        if (scheduleController.getGuest().checkDayWEEKEND()) {
-            // 주말 -> 메인 메뉴 개당 2,023원 할인
+        if (scheduleController.getGuest().checkDayWEEKEND()) { // 주말 -> 메인 메뉴 개당 2,023원 할인
             weekOfDateDiscount = weekendDiscount.calcDiscount(
                     ordercontroller.getOrderDetails().getMenuDetails());
             if (weekOfDateDiscount > 0) {
@@ -104,8 +103,7 @@ public class DiscountController {
             }
             return;
         }
-        // 평일 -> 디저트 메뉴 개당 2,023원 할인
-        weekOfDateDiscount  = weekdayDiscount.calcDiscount(
+        weekOfDateDiscount  = weekdayDiscount.calcDiscount(// 평일 -> 디저트 메뉴 개당 2,023원 할인
                 ordercontroller.getOrderDetails().getMenuDetails());
         if (weekOfDateDiscount > 0) {
             discountAmount += weekOfDateDiscount; // 평일 할인 누적합

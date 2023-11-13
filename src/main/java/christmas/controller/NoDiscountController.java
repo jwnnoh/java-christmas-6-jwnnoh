@@ -6,6 +6,7 @@ import christmas.view.constants.ConstantMessage;
 
 public class NoDiscountController {
     private final OutputView outputView = new OutputView();
+    private final DecimalFormatFormatter formatter = new DecimalFormatFormatter();
 
     public void showDiscount(int purchaseAmount) {
         showGiveaway();
@@ -21,7 +22,6 @@ public class NoDiscountController {
     }
 
     private void showExpectedPurchaseAmount(int purchaseAmount) {
-        DecimalFormatFormatter formatter = new DecimalFormatFormatter();
         System.out.println(ConstantMessage.ORDER_AMOUNT_AFTER_DISCOUNT.getMessage());
         System.out.println(formatter.returnDecimalFormatAmount(purchaseAmount) +
                 ConstantMessage.AMOUNT_UNIT.getMessage());
@@ -30,7 +30,9 @@ public class NoDiscountController {
 
     private void showTotalDiscountAmount() {
         System.out.println(ConstantMessage.DISCOUNT_AMOUNT.getMessage());
-        outputView.printUnavailable();
+        System.out.println(formatter.returnDecimalFormatAmount(0) +
+                ConstantMessage.AMOUNT_UNIT.getMessage());
+        outputView.printNewLine();
     }
 
     private void showBenefitDiscount() {
