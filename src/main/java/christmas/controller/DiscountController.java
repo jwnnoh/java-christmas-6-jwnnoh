@@ -36,8 +36,9 @@ public class DiscountController {
         showExpectedPurchaseAmount(purchaseAmount);
     }
 
-    private void showExpectedPurchaseAmount(int purchaseAmount) {
-        outputView.printExpectedPurchaseAmount(formatter.returnDecimalFormatAmount(purchaseAmount - discountAmount));
+    private void showExpectedPurchaseAmount(int purchaseAmount) { // 증정 이벤트는 결제 금액에서 중복으로 차감되지 않는다.
+        outputView.printExpectedPurchaseAmount(formatter.returnDecimalFormatAmount(
+                purchaseAmount - discountAmount + Giveaway.GIVEAWAY_MENU.getPrice()));
         outputView.printNewLine();
     }
 
@@ -48,6 +49,7 @@ public class DiscountController {
 
     private void showGiveawayDiscount(int purchaseAmount) {
         if (giveaway.isGiven(purchaseAmount)) {
+            discountAmount += Giveaway.GIVEAWAY_MENU.getPrice(); // 증정 할인 누적합
             outputView.printGiveawayDiscountAmountMessage(
                     formatter.returnDecimalFormatAmount(giveaway.getGiveawayPrice()));
         }
@@ -56,7 +58,7 @@ public class DiscountController {
     private void showSpecialDiscount() {
         if (scheduleController.getGuest().checkSpecialDay()) {
             outputView.printSpecialDayDiscountAmountMessage(formatter.returnDecimalFormatAmount(SPECIAL_DAY_DISCOUNT_AMOUNT));
-            discountAmount += SPECIAL_DAY_DISCOUNT_AMOUNT;
+            discountAmount += SPECIAL_DAY_DISCOUNT_AMOUNT; // 특별 할인 누적합
         }
     }
 
@@ -66,18 +68,21 @@ public class DiscountController {
 
         if (scheduleController.getGuest().checkDayWEEKEND()) {
             // 주말 -> 메인 메뉴 개당 2,023원 할인
-            String amount = weekendDiscount.calcDiscount(ordercontroller.getOrderDetails().getMenuDetails(), discountAmount);
-            outputView.printWeekendDiscountAmountMessage(amount);
+            int weekendDiscountAmount = weekendDiscount.calcDiscount(ordercontroller.getOrderDetails().getMenuDetails());
+            discountAmount += weekendDiscountAmount; // 주말 할인 누적합
+            outputView.printWeekendDiscountAmountMessage(formatter.returnDecimalFormatAmount(weekendDiscountAmount));
             return;
         }
         // 평일 -> 디저트 메뉴 개당 2,023원 할인
-        String amount = weekdayDiscount.calcDiscount(ordercontroller.getOrderDetails().getMenuDetails(), discountAmount);
-        outputView.printWeekdayDiscountAmountMessage(amount);
+        int weekdayDiscountAmount = weekdayDiscount.calcDiscount(ordercontroller.getOrderDetails().getMenuDetails());
+        discountAmount += weekdayDiscountAmount; // 평일 할인 누적합
+        outputView.printWeekdayDiscountAmountMessage(formatter.returnDecimalFormatAmount(weekdayDiscountAmount));
     }
 
     private void showDDayDiscount() {
         if (scheduleController.getGuest().checkDDay(D_DAY)) {
-            int dDayDiscount = dDayCalculator.calcDDAyDiscount(scheduleController.getGuest().getDate(), D_DAY, discountAmount);
+            int dDayDiscount = dDayCalculator.calcDDAyDiscount(scheduleController.getGuest().getDate(), D_DAY);
+            discountAmount += dDayDiscount; // 디데이 할인 누적합
             outputView.printDDayDiscountAmountMessage(formatter.returnDecimalFormatAmount(dDayDiscount));
             return;
         }
@@ -87,7 +92,7 @@ public class DiscountController {
 
     private void showGiveawayEvent(int purchaseAmount) {
         outputView.printGiveawayEventMessage();
-        System.out.println(giveaway.checkGiveaway(purchaseAmount, discountAmount));
+        System.out.println(giveaway.checkGiveaway(purchaseAmount));
         outputView.printNewLine();
     }
 }
