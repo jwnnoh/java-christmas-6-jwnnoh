@@ -8,7 +8,6 @@ import static christmas.domain.constants.Menu.getCategoryByName;
 
 public class WeekdayDiscount {
     private static final int DISCOUNT_AMOUNT = 2023;
-    private final DecimalFormatFormatter formatter = new DecimalFormatFormatter();
 
     public int calcDiscount(Map<String, Integer> menuDetails) {
         int tmpDiscountAmount = 0;
