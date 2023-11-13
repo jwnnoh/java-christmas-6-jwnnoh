@@ -17,8 +17,10 @@ public class MainController {
     private final DiscountController discountController = new DiscountController(scheduleController, orderController);
     private final OutputView outputView = new OutputView();
     private final NoDiscountController noDiscountController = new NoDiscountController();
+    private final ResultController resultController = new ResultController();
 
     private int purchaseAmount;
+
 
     public void run() {
         scheduleController.setDate();
@@ -27,7 +29,8 @@ public class MainController {
         showOrderedList();
         showPurchaseAmountBeforeDiscount();
         if (purchaseAmount >= DISCOUNT_REQUIREMENT_AMOUNT) {
-            discountController.showDiscount(purchaseAmount);
+            int discountAmount = discountController.showDiscount(purchaseAmount);
+            resultController.showResult(purchaseAmount, discountAmount);
             return;
         }
         noDiscountController.showDiscount(purchaseAmount);

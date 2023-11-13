@@ -21,12 +21,11 @@ public class DiscountController {
         this.ordercontroller = orderController;
     }
 
-    public void showDiscount(int purchaseAmount) {
+    public int showDiscount(int purchaseAmount) {
         showGiveawayEvent(purchaseAmount);
         showDiscountBenefit(purchaseAmount);
-        showTotalDiscountAmount();
-        showExpectedPurchaseAmount(purchaseAmount);
-        showEventBadge();
+        return showTotalDiscountAmount();
+        //분리
     }
 
     private void showDiscountBenefit(int purchaseAmount) {
@@ -43,31 +42,13 @@ public class DiscountController {
         }
     }
 
-    private void showEventBadge() {
-        EventBadgeDraw eventBadgeDraw = new EventBadgeDraw();
-        if (discountAmount >= EventBadgeDraw.LOWEST_DISCOUNT) {
-            outputView.printEventBadgeMessage(eventBadgeDraw.determineBadge(discountAmount));
-            return;
-        }
-        outputView.printEventBadgeUnavailable();
-    }
-
-    private void showExpectedPurchaseAmount(int purchaseAmount) {
-        ExpectedPurchaseAmount expectedPurchaseAmount = new ExpectedPurchaseAmount();
-        int finalPurchaseAmount = expectedPurchaseAmount.calculate(purchaseAmount, discountAmount);
-        if (finalPurchaseAmount > 0) {
-            outputView.printExpectedPurchaseAmountMessage(
-                    formatter.returnDecimalFormatAmount(finalPurchaseAmount));
-        }
-        outputView.printNewLine();
-    }
-
-    private void showTotalDiscountAmount() {
+    private int showTotalDiscountAmount() {
         if (discountAmount > 0) {
             outputView.printTotalDiscountAmountMessage(formatter.returnDecimalFormatAmount(discountAmount));
-            return;
+            return discountAmount;
         }
         outputView.printTotalDiscountUnavailableMessage(discountAmount);
+        return discountAmount;
     }
 
     private void showGiveawayDiscount(int purchaseAmount) {
