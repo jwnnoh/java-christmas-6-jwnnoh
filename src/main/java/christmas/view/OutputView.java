@@ -86,8 +86,13 @@ public class OutputView {
                 amount + ConstantMessage.AMOUNT_UNIT.getMessage());
     }
 
-    public void printExpectedPurchaseAmount(String amount) {
+    public void printExpectedPurchaseAmountMessage(String amount) {
         System.out.println(ConstantMessage.ORDER_AMOUNT_AFTER_DISCOUNT.getMessage());
         System.out.println(amount + ConstantMessage.AMOUNT_UNIT.getMessage());
+    }
+
+    public void printEventBadgeMessage(String badge) {
+        System.out.println(ConstantMessage.EVENT_BADGE.getMessage());
+        System.out.println(badge);
     }
 }

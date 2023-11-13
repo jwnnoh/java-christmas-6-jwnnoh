@@ -14,7 +14,6 @@ public class DiscountController {
     private final OrderController ordercontroller;
     private final OutputView outputView = new OutputView();
     private final Giveaway giveaway = new Giveaway();
-    private final DDayCalculator dDayCalculator = new DDayCalculator();
     private final DecimalFormatFormatter formatter = new DecimalFormatFormatter();
 
     private int discountAmount;
@@ -34,10 +33,16 @@ public class DiscountController {
         outputView.printNewLine();
         showTotalDiscountAmount();
         showExpectedPurchaseAmount(purchaseAmount);
+        showEventBadge();
+    }
+
+    private void showEventBadge() {
+        EventBadgeDraw eventBadgeDraw = new EventBadgeDraw();
+        outputView.printEventBadgeMessage(eventBadgeDraw.determineBadge(discountAmount));
     }
 
     private void showExpectedPurchaseAmount(int purchaseAmount) { // 증정 이벤트는 결제 금액에서 중복으로 차감되지 않는다.
-        outputView.printExpectedPurchaseAmount(formatter.returnDecimalFormatAmount(
+        outputView.printExpectedPurchaseAmountMessage(formatter.returnDecimalFormatAmount(
                 purchaseAmount - discountAmount + Giveaway.GIVEAWAY_MENU.getPrice()));
         outputView.printNewLine();
     }
@@ -81,6 +86,7 @@ public class DiscountController {
 
     private void showDDayDiscount() {
         if (scheduleController.getGuest().checkDDay(D_DAY)) {
+            DDayCalculator dDayCalculator = new DDayCalculator();
             int dDayDiscount = dDayCalculator.calcDDAyDiscount(scheduleController.getGuest().getDate(), D_DAY);
             discountAmount += dDayDiscount; // 디데이 할인 누적합
             outputView.printDDayDiscountAmountMessage(formatter.returnDecimalFormatAmount(dDayDiscount));
