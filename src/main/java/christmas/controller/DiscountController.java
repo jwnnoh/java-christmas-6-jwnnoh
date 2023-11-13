@@ -23,7 +23,7 @@ public class DiscountController {
         this.ordercontroller = orderController;
     }
 
-    public void calcDiscount(int purchaseAmount) {
+    public void showDiscount(int purchaseAmount) {
         showGiveawayEvent(purchaseAmount);
         outputView.printDiscountTypeMessage();
         showDDayDiscount();

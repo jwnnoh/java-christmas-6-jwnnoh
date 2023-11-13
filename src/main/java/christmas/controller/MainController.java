@@ -10,12 +10,13 @@ import java.util.Map;
 import static christmas.domain.constants.Constant.PRINT_DELIMITER;
 
 public class MainController {
+    private static final int DISCOUNT_REQUIREMENT_AMOUNT = 10000;
+
     private final ScheduleController scheduleController = new ScheduleController();
     private final OrderController orderController = new OrderController();
     private final DiscountController discountController = new DiscountController(scheduleController, orderController);
     private final OutputView outputView = new OutputView();
-    private final EachAmountAdder eachAmountAdder = new EachAmountAdder();
-    private final DecimalFormatFormatter formatter = new DecimalFormatFormatter();
+    private final NoDiscountController noDiscountController = new NoDiscountController();
 
     private int purchaseAmount;
 
@@ -25,7 +26,11 @@ public class MainController {
         showBenefitIntro();
         showOrderedList();
         showPurchaseAmountBeforeDiscount();
-        discountController.calcDiscount(purchaseAmount);
+        if (purchaseAmount >= DISCOUNT_REQUIREMENT_AMOUNT) {
+            discountController.showDiscount(purchaseAmount);
+            return;
+        }
+        noDiscountController.showDiscount();
     }
 
     private void showOrderedList() {
@@ -49,11 +54,13 @@ public class MainController {
     }
 
     private void showPurchaseAmountBeforeDiscount() {
+        DecimalFormatFormatter formatter = new DecimalFormatFormatter();
         outputView.printOrderAmountBeforeDiscountMessage(formatter.returnDecimalFormatAmount(purchaseAmount));
         outputView.printNewLine();
     }
 
     private void calcPurchaseAmountBeforeDiscount() {
+        EachAmountAdder eachAmountAdder = new EachAmountAdder();
         Map<String, Integer> orderDetails = orderController.getOrderDetails().getMenuDetails();
         for (String menuItem :
                 orderDetails.keySet()) {
