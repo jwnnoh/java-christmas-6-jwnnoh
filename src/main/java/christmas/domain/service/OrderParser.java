@@ -27,7 +27,7 @@ public class OrderParser {
         String[] itemDetails = menuItem.split(MENU_DELIMITER.getMessage());
         if (itemDetails.length == 2) {
             String itemName = validator.validateDuplicates(itemDetails[0], splitMenu);
-            int quantity = validator.validateQuantityInteger(itemDetails[1]);
+            int quantity = validator.validateInputInteger(itemDetails[1]);
             splitMenu.put(itemName, quantity);
         } else {
             throw new IllegalArgumentException();

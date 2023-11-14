@@ -21,8 +21,7 @@ public class ScheduleController {
     private void getDateOfVisit() {
         String date = inputView.readDateOfVisit();
         try {
-            validator.validateInputInteger(date);
-            guest = new Guest(Integer.parseInt(date));
+            guest = new Guest(validator.validateInputInteger(date));
         } catch (IllegalArgumentException e) {
             outputView.printErrorFromDateMessage();
             getDateOfVisit();

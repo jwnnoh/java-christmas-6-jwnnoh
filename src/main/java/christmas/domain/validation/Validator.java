@@ -4,15 +4,7 @@ import java.util.Map;
 
 public class Validator {
 
-    public void validateInputInteger(String input) {
-        try {
-            Integer.parseInt(input);
-        } catch (NumberFormatException e) {
-            throw new IllegalArgumentException();
-        }
-    }
-
-    public int validateQuantityInteger(String quantity) {
+    public int validateInputInteger(String quantity) {
         try {
             return Integer.parseInt(quantity);
         } catch (NumberFormatException e) {
