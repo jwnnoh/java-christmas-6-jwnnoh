@@ -30,7 +30,7 @@ public class Guest {
         return date <= dDay;
     }
 
-    public boolean checkDayWEEKEND() {
+    public boolean checkDayWeekend() {
         LocalDate dateTime = LocalDate.of(Calender.YEAR.getValue(), Calender.MONTH.getValue(), this.date);
         DayOfWeek dayOfWeek = dateTime.getDayOfWeek();
 

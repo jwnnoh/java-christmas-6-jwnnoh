@@ -67,7 +67,7 @@ public class DiscountController {
     }
 
     private void showWeekOfDateDiscount() {
-        if (scheduleController.getGuest().checkDayWEEKEND()) {
+        if (scheduleController.getGuest().checkDayWeekend()) {
             showWeekend();
             return;
         }
