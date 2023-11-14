@@ -12,9 +12,4 @@ public class Giveaway {
     public boolean checkGiveaway(int purchaseAmount) {
         return purchaseAmount >= AMOUNT_REQUIRED;
     }
-
-    public boolean isGiven(int purchaseAmount) {
-        return purchaseAmount >= AMOUNT_REQUIRED;
-    }
-
 }

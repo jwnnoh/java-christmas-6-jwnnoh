@@ -50,7 +50,7 @@ public class DiscountController {
     }
 
     private void showGiveawayDiscount(int purchaseAmount) {
-        if (giveaway.isGiven(purchaseAmount)) {
+        if (giveaway.checkGiveaway(purchaseAmount)) {
             discountAmount += Giveaway.GIVEAWAY_MENU.getPrice(); // 증정 할인 누적합
             outputView.printGiveawayDiscountAmountMessage(
                     formatter.returnDecimalFormatAmount(Giveaway.GIVEAWAY_MENU.getPrice()));
