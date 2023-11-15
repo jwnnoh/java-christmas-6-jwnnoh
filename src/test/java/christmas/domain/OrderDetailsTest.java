@@ -3,6 +3,8 @@ package christmas.domain;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -78,10 +80,11 @@ class OrderDetailsTest {
     }
 
     @DisplayName("음료만 주문했을 경우 예외를 발생한다.")
-    @Test
-    public void testCheckOnlyDrinks() {
+    @ValueSource(strings = {"제로콜라, 레드와인, 샴페인"})
+    @ParameterizedTest
+    public void testCheckOnlyDrinks(String drink) {
         // Given
-        menuDetails.put("제로콜라", 1);
+        menuDetails.put(drink, 1);
 
         // When, Then
         assertThatThrownBy(() -> new OrderDetails(menuDetails))
