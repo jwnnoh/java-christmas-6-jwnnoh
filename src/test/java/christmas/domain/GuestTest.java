@@ -2,8 +2,9 @@ package christmas.domain;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -22,109 +23,76 @@ class GuestTest {
     }
 
     @DisplayName("1~31범위 밖의 숫자는 예외를 발생시킨다.")
-    @Test
-    public void testGuestWithInvalidDate() {
-        // Given
-        List<Integer> invalidDates = List.of(-1, 0, 32);
-
-        // When, Then
-        for (int invalidDate : invalidDates) {
-            assertThatThrownBy(() -> new Guest(invalidDate))
-                    .isInstanceOf(IllegalArgumentException.class);
-        }
+    @ValueSource(ints = {-1, 0, 32})
+    @ParameterizedTest
+    public void testGuestWithInvalidDate(int invalidDate) {
+        assertThatThrownBy(() -> new Guest(invalidDate))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
-    @DisplayName("방문 날짜가 25일 이전이면 디데이 이벤트 적용이 가능하다.")
-    @Test
-    public void testCheckDDayWithDateBeforeDDay() {
+    @DisplayName("방문 날짜가 1일~25일이면 디데이 이벤트 적용이 가능하다.")
+    @ValueSource(ints = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25})
+    @ParameterizedTest
+    public void testCheckDDayWithDateBeforeDDay(int date) {
         // Given
-        Guest guest = new Guest(24);
-
-        // When, Then
-        assertThat(guest.checkDDay(D_DAY)).isTrue();
-    }
-    @DisplayName("방문 날짜가 25일이면 디데이 이벤트 적용이 가능하다.")
-    @Test
-    public void testCheckDDayWithDateDDay() {
-        // Given
-        Guest guest = new Guest(25);
+        Guest guest = new Guest(date);
 
         // When, Then
         assertThat(guest.checkDDay(D_DAY)).isTrue();
     }
 
     @DisplayName("방문 날짜가 25일 이후면 디데이 이벤트 적용이 불가능하다.")
-    @Test
-    public void testCheckDDayWithDateAfterDDay() {
+    @ValueSource(ints = {26, 27, 28, 29, 30, 31})
+    @ParameterizedTest
+    public void testCheckDDayWithDateAfterDDay(int date) {
         // Given
-        Guest guest = new Guest(26);
+        Guest guest = new Guest(date);
 
         // When, Then
         assertThat(guest.checkDDay(D_DAY)).isFalse();
     }
 
-    @DisplayName("방문 날짜가 금요일이면 주말이다.")
-    @Test
-    public void testCheckDayWeekendWithFriday() {
+    @DisplayName("방문 날짜가 금요일하고 토요일이면 주말이다.")
+    @ValueSource(ints = {1, 2})
+    @ParameterizedTest
+    public void testCheckDayWeekendWithFridaySaturday(int date) {
         // Given
-        Guest guest = new Guest(1);
-
-        // When, Then
-        assertThat(guest.checkDayWeekend()).isTrue();
-    }
-
-
-    @DisplayName("방문 날짜가 토요일이면 주말이다.")
-    @Test
-    public void testCheckDayWeekendWithSunday() {
-        // Given
-        Guest guest = new Guest(2);
+        Guest guest = new Guest(date);
 
         // When, Then
         assertThat(guest.checkDayWeekend()).isTrue();
     }
 
     @DisplayName("방문 날짜가 일요일~목요일이면 평일이다.")
-    @Test
-    public void testCheckDayWeekendWithOthers() {
-        for (int i = 3; i <= 7; i++) {
-            // Given
-            Guest guest = new Guest(i);
-
-            // When, Then
-            assertThat(guest.checkDayWeekend()).isFalse();
-        }
-    }
-
-    @DisplayName("방문 날짜가 크리스마스이면 스페셜 데이이다.")
-    @Test
-    public void testCheckSpecialDayWithChristmas() {
+    @ValueSource(ints = {3, 4, 5, 6, 7})
+    @ParameterizedTest
+    public void testCheckDayWeekendWithOthers(int date) {
         // Given
-        Guest guest = new Guest(25);
+        Guest guest = new Guest(date);
 
         // When, Then
-        assertThat(guest.checkSpecialDay()).isTrue();
+        assertThat(guest.checkDayWeekend()).isFalse();
     }
 
-    @DisplayName("방문 날짜가 일요일이면 스페셜 데이이다.")
-    @Test
-    public void testCheckSpecialDayWithFriday() {
+    @DisplayName("방문 날짜가 크리스마스와 일요일이면 스페셜 데이이다.")
+    @ValueSource(ints = {3, 10, 17, 24, 25})
+    @ParameterizedTest
+    public void testCheckSpecialDayWithChristmas(int date) {
         // Given
-        Guest guest = new Guest(24);
+        Guest guest = new Guest(date);
 
         // When, Then
         assertThat(guest.checkSpecialDay()).isTrue();
     }
 
     @DisplayName("25일을 제외한 월요일~토요일은 스페셜 데이가 아니이다.")
-    @Test
-    public void testCheckSpecialDayWithOthers() {
-        for (int i = 4; i <= 9; i++) {
-            // Given
-            Guest guest = new Guest(i);
+    @ValueSource(ints = {4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 18, 19, 20, 21, 22, 23, 26, 27, 28, 29, 30})
+    @ParameterizedTest
+    public void testCheckSpecialDayWithOthers(int date) {
+        // Given
+        Guest guest = new Guest(date);
 
-            // When, Then
-            assertThat(guest.checkSpecialDay()).isFalse();
-        }
+        // When, Then
+        assertThat(guest.checkSpecialDay()).isFalse();
     }
 }

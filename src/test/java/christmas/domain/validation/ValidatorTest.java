@@ -3,9 +3,10 @@ package christmas.domain.validation;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.*;
@@ -29,16 +30,11 @@ class ValidatorTest {
     }
 
     @DisplayName("공백, 문자, 빈 값 입력시 예외를 발생시킨다.")
-    @Test
-    public void testValidateInputIntegerWithoutString() {
-        // Given
-        List<String> quantities = List.of("five", " ", "");
-
-        // When, Then
-        for (String quantity : quantities) {
-            assertThatThrownBy(() -> validator.validateInputInteger(quantity))
-                    .isInstanceOf(IllegalArgumentException.class);
-        }
+    @ValueSource(strings = {"", " ", "five"})
+    @ParameterizedTest
+    public void testValidateInputIntegerWithoutString(String quantity) {
+        assertThatThrownBy(() -> validator.validateInputInteger(quantity))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
     @DisplayName("주문 메뉴를 반환하는 맵에 중복된 메뉴 주문이 없으면 정상 통과한다.")
