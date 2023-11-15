@@ -3,7 +3,7 @@ package christmas.domain.constants;
 public enum Menu {
     MUSHROOM_SOUP("양송이수프", 6000, Category.APPETIZER),
     TAPAS("타파스", 5500, Category.APPETIZER),
-    CAESAR_SALAD("시저셀러드", 8000, Category.APPETIZER),
+    CAESAR_SALAD("시저샐러드", 8000, Category.APPETIZER),
     T_BONE_STEAK("티본스테이크", 55000, Category.MAIN_DISH),
     BBQ_RIB("바비큐립", 54000, Category.MAIN_DISH),
     SEAFOOD_PASTA("해산물파스타", 35000, Category.MAIN_DISH),
@@ -12,7 +12,7 @@ public enum Menu {
     ICE_CREAM("아이스크림", 5000, Category.DESSERT),
     ZERO_COKE("제로콜라", 3000, Category.DRINK),
     RED_WINE("레드와인", 60000, Category.DRINK),
-    CHAMPAGNE("삼페인", 25000, Category.DRINK);
+    CHAMPAGNE("샴페인", 25000, Category.DRINK);
 
     private final String name;
     private final int price;
@@ -41,7 +41,7 @@ public enum Menu {
                 return menu.getCategory();
             }
         }
-        return null; // Return null if the menuItem is not found
+        return null;
     }
 
     public static int getPriceByName(String menuItem) {
@@ -50,7 +50,7 @@ public enum Menu {
                 return menu.getPrice();
             }
         }
-        return 0; // Return 0 if the menuItem is not found
+        return 0;
     }
 }
 
