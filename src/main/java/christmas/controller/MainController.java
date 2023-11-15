@@ -19,16 +19,14 @@ public class MainController {
     private final NoDiscountController noDiscountController = new NoDiscountController();
     private final ResultController resultController = new ResultController();
 
-    private int purchaseAmount;
-
-
     public void run() {
-        int discountAmount = 0;
         scheduleController.setDate();
         orderController.setMenu();
         showBenefitIntro();
         showOrderedList();
-        showPurchaseAmountBeforeDiscount();
+        int purchaseAmount = calcPurchaseAmountBeforeDiscount();
+        showPurchaseAmountBeforeDiscount(purchaseAmount);
+        int discountAmount = 0;
         if (purchaseAmount >= DISCOUNT_REQUIREMENT_AMOUNT) {
             discountAmount = discountController.showDiscount(purchaseAmount);
             resultController.showResult(purchaseAmount, discountAmount);
@@ -38,10 +36,9 @@ public class MainController {
     }
 
     private void showOrderedList() {
-        calcPurchaseAmountBeforeDiscount();
+        Map<String, Integer> orderDetails = orderController.getOrderDetails().getMenuDetails();
 
         outputView.printOrderedMenuMessage();
-        Map<String, Integer> orderDetails = orderController.getOrderDetails().getMenuDetails();
         for (String menuItem : orderDetails.keySet()) {
             System.out.println(menuItem +
                     PRINT_DELIMITER.getMessage() +
@@ -57,18 +54,20 @@ public class MainController {
         outputView.printNewLine();
     }
 
-    private void showPurchaseAmountBeforeDiscount() {
+    private void showPurchaseAmountBeforeDiscount(int purchaseAmount) {
         DecimalFormatFormatter formatter = new DecimalFormatFormatter();
         outputView.printOrderAmountBeforeDiscountMessage(formatter.returnDecimalFormatAmount(purchaseAmount));
         outputView.printNewLine();
     }
 
-    private void calcPurchaseAmountBeforeDiscount() {
+    private int calcPurchaseAmountBeforeDiscount() {
         EachAmountAdder eachAmountAdder = new EachAmountAdder();
         Map<String, Integer> orderDetails = orderController.getOrderDetails().getMenuDetails();
-        for (String menuItem :
-                orderDetails.keySet()) {
+        int purchaseAmount = 0;
+        for (String menuItem : orderDetails.keySet()) {
             purchaseAmount += eachAmountAdder.addEachAmount(menuItem, orderDetails);
         }
+
+        return purchaseAmount;
     }
 }
